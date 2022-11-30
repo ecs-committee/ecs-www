@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecs-www
+  labels:
+    appType: ecswww
+    ecswww: ecs-www
+    component: ecs-www-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: ecs-www-web
+  template:
+    metadata:
+      labels:
+        appType: ecswww
+        ecswww: ecs-www
+        component: ecs-www-web
+    spec:
+      imagePullSecrets:
+        - name: oalcred
+      volumes:
+        - name: ecswww-data
+          persistentVolumeClaim:
+            claimName: ecs-www-dataclaim
+      containers:
+        -
+          imagePullPolicy: Always
+          name: ecs-www
+          image: docker.oal.no/oal/ecswww:latest
+          volumeMounts:
+            - mountPath: /data
+              name: ecswww-data
+          ports:
+            -
+              name: ecswww
+              containerPort: 3000
+          env:
+            -
+              name: INITIAL_USER
+              value: 'admin'
+            -
+              name: INITIAL_PASSWORD
+              value: 'admin'
+            -
+              name: JWT_SECRET
+              value: 'randomkey'
+            -
+              name: NODE_ENV
+              value: production
+            -
+              name: DATABASE_URL
+              value: file:/data/data.sqlite
+            -
+              name: DATABASE_PATH
+              value: /data
+            -
+              name: REDIS_HOST
+              value: ecs-www-redis
+            -
+              name: REDIS_PORT
+              value: "6379"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecs-www-redis
+  labels:
+    appType: ecswww
+    ecswww: ecs-www
+    component: ecs-www-redis
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      component: ecs-www-redis
+  template:
+    metadata:
+      labels:
+        appType: ecswww
+        ecswww: ecs-www
+        component: ecs-www-redis
+    spec:
+      containers:
+        -
+          name: ecs-www-redis
+          image: redis:alpine
+          ports:
+            -
+              name: oalmw-redis
+              containerPort: 6379

@@ -1,0 +1,26 @@
+name: Publish docker image
+on:
+    push:
+        tags:
+            - 'v*'
+
+jobs:
+    build:
+        runs-on: [ self-hosted, Linux ]
+        name: Build and push docker image
+        steps:
+            - uses: actions/checkout@master
+            - uses: satackey/action-docker-layer-caching@v0.0.11
+              continue-on-error: true
+            - name: Publish to Registry
+              uses: elgohr/Publish-Docker-Github-Action@master
+              env:
+                  SSH_KEY64: ${{ secrets.SSH_KEY64 }}
+              with:
+                  name: oal/ecs-www
+                  registry: docker.oal.no
+                  username: ${{ secrets.OALDOCKER_USERNAME }}
+                  password: ${{ secrets.OALDOCKER_PASSWORD }}
+                  workdir: ./
+                  tag_semver: true
+                  buildargs: SSH_KEY64
