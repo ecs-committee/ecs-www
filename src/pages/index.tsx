@@ -10,8 +10,12 @@ import { Layers } from '../lib/components/Layers'
 import { Flyover } from '../lib/components/Flyover'
 import { EnvelopeIcon } from '@heroicons/react/20/solid'
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
+import { useRouter } from 'next/router'
 const Home: NextPage = () => {
 	const { data: settingsData, isLoading } = useSettings()
+	// get query parasms
+	const { query } = useRouter()
+	const { magi } = query
 	const [drawerOpen, setDrawerOpen] = useState<boolean>(false)
 	return (
 		<>
@@ -32,7 +36,7 @@ const Home: NextPage = () => {
 						on collective experience.
 					</p>
 
-					<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8 w-[90vw] md:w-[80vw] lg:w-[70vw] xl:w-[50vw]">
+					<div className="grid w-[90vw] grid-cols-1 gap-4 sm:grid-cols-2 md:w-[80vw] md:gap-8 lg:w-[70vw] xl:w-[50vw]">
 						<div className="flex flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
 							<h3 className="text-2xl font-bold">Vectorworks ⤵</h3>
 							<div className="text-lg">
@@ -68,31 +72,34 @@ const Home: NextPage = () => {
 							</div>
 						</div>
 					</div>
+					{magi === '1' && (
+						<>
+							<button
+								type="button"
+								onClick={() => {
+									setDrawerOpen(!drawerOpen)
+								}}
+								className="inline-flex items-center rounded-md border border-transparent bg-cyan-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-cyan-700 focus:outline-none focus:ring-0 focus:ring-cyan-500 focus:ring-offset-1"
+							>
+								{drawerOpen ? (
+									<ArrowLeftIcon className="-ml-1 mr-3 h-5 w-5" aria-hidden="true" />
+								) : (
+									<ArrowRightIcon className="-ml-1 mr-3 h-5 w-5" aria-hidden="true" />
+								)}
+								Click here for a quick overview
+							</button>
 
-					<button
-						type="button"
-						onClick={ () => {
-							setDrawerOpen(!drawerOpen)
-						}}
-						className="inline-flex items-center rounded-md border border-transparent bg-cyan-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-cyan-700 focus:outline-none focus:ring-0 focus:ring-cyan-500 focus:ring-offset-1"
-					>
-						{drawerOpen ? (
-							<ArrowLeftIcon className="-ml-1 mr-3 h-5 w-5" aria-hidden="true" />
-						) : (
-							<ArrowRightIcon className="-ml-1 mr-3 h-5 w-5" aria-hidden="true" />
-						)}
-						Click here for a quick overview
-					</button>
+							<h2 className="mt-16 text-3xl font-extrabold tracking-tight text-white sm:text-[2.5rem]">
+								Contributors
+							</h2>
 
-					<h2 className="mt-16 text-3xl font-extrabold tracking-tight text-white sm:text-[2.5rem]">
-						Contributors
-					</h2>
+							<People />
 
-					<People />
-
-					<Flyover isOpen={drawerOpen} onClose={() => setDrawerOpen(!drawerOpen)}>
-						<Layers />
-					</Flyover>
+							<Flyover isOpen={drawerOpen} onClose={() => setDrawerOpen(!drawerOpen)}>
+								<Layers />
+							</Flyover>
+						</>
+					)}
 				</div>
 			</main>
 		</>

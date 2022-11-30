@@ -58,7 +58,7 @@ export function Layers() {
 				))}
 			</div>
 
-			<h3 className="my-2 text-xl">Complete flat view</h3>
+			<h3 className="my-2 text-xl">Flat view</h3>
 			<div className="border-l-4 border-l-gray-500 pl-3">
 				{json.map((layer: any) => (
 					<div key={layer.id}>
