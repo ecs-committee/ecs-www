@@ -28,7 +28,7 @@ spec:
         -
           imagePullPolicy: Always
           name: ecs-www
-          image: docker.oal.no/oal/ecswww:latest
+          image: docker.oal.no/oal/ecs-www:0
           volumeMounts:
             - mountPath: /data
               name: ecswww-data
