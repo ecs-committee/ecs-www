@@ -2,11 +2,11 @@ name: Publish docker image
 on:
     push:
         tags:
-            - 'v*'
+            - "v*"
 
 jobs:
     build:
-        runs-on: [ self-hosted, Linux ]
+        runs-on: [self-hosted, Linux]
         name: Build and push docker image
         steps:
             - uses: actions/checkout@master
@@ -24,3 +24,28 @@ jobs:
                   workdir: ./
                   tag_semver: true
                   buildargs: SSH_KEY64
+    deploy:
+        needs: [build]
+        runs-on: [self-hosted, Linux]
+        name: Deploy to OAL Cluster
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: Set output
+              id: vars
+              run: echo ::set-output name=tag::${GITHUB_REF#refs/*/v}
+            - name: Deploy to cluster
+              uses: kodermax/kubectl-aws-eks@master
+              env:
+                  KUBE_CONFIG_DATA: ${{ secrets.OALCLUSTER_CONFIG }}
+                  ECR_REGISTRY: docker.oal.no
+                  ECR_REPOSITORY: oal/ecs-www
+                  IMAGE_TAG: ${{ steps.vars.outputs.tag }}
+              with:
+                  args: --namespace=ecs set image deployment/ecs-www ecs-www=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            - name: Verify deployment
+              uses: kodermax/kubectl-aws-eks@master
+              env:
+                  KUBE_CONFIG_DATA: ${{ secrets.OALCLUSTER_CONFIG }}
+              with:
+                  args: --namespace=ecs rollout status deployment/ecs-www
