@@ -1,0 +1,149 @@
+00	Site
+01	Landscape
+02	Permanent structures
+03	Vegetation (Plants, trees etc)
+04	Security (Fences etc.)
+05
+06	Services (parking)
+07
+08	EL
+09	Infrastructure
+
+10	Venue
+11	Exterior Shell
+12	Inner structure, Galleries, door etc.
+13	Structural
+14
+15	Support Functions
+16	Soft goods
+17	House Seating
+18	EL / HVAC
+19	Infrastructure
+
+20	Rigging
+21	Super Structure
+22	Truss
+23	Pipes / Ladders / Drop Arms
+24	Stands
+25	Automation
+26
+27	House Rigging
+28	Rigging Points
+29	Infrastructure
+
+30	Scenic
+31	Scaffolding
+32	Stage
+33	Risers
+34	Scenography
+35	Moving Scenography
+36	Fabric
+37
+38
+39	Infrastructure
+
+40	Lights
+41	Fixture Conventional
+42	Fixture Moving
+43	Fixture Effect
+44	Integrated / Practicals
+45
+46	Follow spots
+47	House Lights
+48
+49	Infrastructure
+
+50	Video
+51	Projectors
+52	Video Surface
+53	Creative Video
+54
+55	Screens / Displays / Monitors
+56
+57	House Video
+58
+59	Infrastructure
+
+60	Sound
+61	PA Main
+62	PA Delay
+63	PA Fill
+64	Sub
+65	Monitors
+66	Microphones / Stands
+67	House Sound
+68
+69	Infrastructure
+
+
+70	Effects
+71	Pyro / SFX
+72	Lasers
+73
+74
+75
+76
+77
+78	Haze / Smoke etc.
+79	Infrastructure
+
+
+80	Event
+81	Seating
+82	Platforms / Towers
+83	Barricades / Fences
+84	Functions
+85	Talent / Presenters
+86	People / Pigeons
+87	Bars / Booths / Service
+88
+89	Infrastructure
+
+
+90	Broadcast
+91	OB Units
+92	Cameras
+93	Jib / Rail / Grip
+94	Operators / Support Functions
+95	Monitors
+96
+97	House Cameras
+98
+99	Infrastructure
+
+
+900	Drawing Support
+901	Origin object / Datum
+902	2D Reference
+903	North-arrow
+904	Centerlines
+905	Non Constuction Lines
+906	Dimensions
+907	Text
+908	Print Specific
+909
+
+
+910	Software Support
+911	Cameras
+912	Viewports
+913
+914	Focus Points / Lines
+915	Axis / Motion
+916
+917	None (VW Default class)
+918
+919
+
+
+920	Calculations
+921	Braceworks
+922
+923
+924
+925
+926
+927
+928
+929
+

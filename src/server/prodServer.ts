@@ -6,8 +6,6 @@ import next from 'next'
 import { parse } from 'url'
 import ws from 'ws'
 import { _error, _info } from '../utils/debug'
-import '../server/lib/sms'
-import { initializeSms } from '../server/lib/sms'
 
 const port = parseInt(process.env.PORT || '3000', 10)
 const dev = process.env.NODE_ENV !== 'production'
@@ -45,9 +43,7 @@ app.prepare().then(() => {
 		}`
 	)
 
-	initializeSms().catch((e) => {
-		_error('SMS: Failed to initialize', e)
-	});
+
 })
 
 // Docker/kube stuff

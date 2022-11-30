@@ -4,8 +4,6 @@ import { applyWSSHandler } from '@trpc/server/adapters/ws'
 import fetch from 'node-fetch'
 import ws from 'ws'
 import { _error, _info } from '../utils/debug'
-import '../server/lib/sms'
-import { initializeSms } from '../server/lib/sms'
 
 if (!global.fetch) {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,9 +13,9 @@ const wss = new ws.Server({
 	port: 3001,
 })
 wss.on('listening', () => {
-	initializeSms().catch((e) => {
+	/*initializeSms().catch((e) => {
 		_error('SMS: Failed to initialize', e)
-	});
+	});*/
 });
 
 const handler = applyWSSHandler({ wss, router: appRouter, createContext })

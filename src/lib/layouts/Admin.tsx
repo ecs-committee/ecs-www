@@ -16,31 +16,19 @@ export function LayoutAdmin({ children, title }: { children: React.ReactNode; ti
 				navigation={[
 					{ label: 'Settings', link: '/app', icon: CogIcon, current: router.asPath === '/app' },
 					{
-						label: 'Messages',
-						link: '/app/message',
+						label: 'ECS Versions',
+						link: '/app/ecs-versions',
 						icon: ChatBubbleLeftRightIcon,
-						current: router.asPath === '/app/message',
+						current: router.asPath === '/app/ecs-versions',
 					},
 					{ label: 'Users', link: '/app/user', icon: UsersIcon, current: router.asPath === '/app/user' },
-					{
-						label: 'Status',
-						link: '/app/status',
-						icon: ChartBarIcon,
-						current: router.asPath === '/app/status',
-					},
-					{
-						label: 'Integration',
-						link: '/app/integration',
-						icon: GlobeEuropeAfricaIcon,
-						current: router.asPath === '/app/integration',
-					}
 				]}
 				user={{
 					link: '#',
 					label: session.user?.username || 'Anonymous',
 				}}
 				company={{
-					label: 'Message wall',
+					label: 'ECS Committee Dashboard',
 				}}
 				page={{
 					label: title,
