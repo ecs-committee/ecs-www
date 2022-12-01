@@ -15,7 +15,7 @@ const people = [
 	},
 	{
 		name: 'Hans Peter Jenssen',
-		email: 'joakim.faxvaag@nrk.no',
+		email: 'hanspeter.jenssen@ct-group.com',
 		role: 'Creative Technology',
 		imageUrl: '/people/hp.png',
 	},
@@ -37,7 +37,6 @@ const people = [
 		role: 'NRK',
 		imageUrl: '/people/ola.png',
 	},
-
 ]
 
 export function People() {
@@ -46,7 +45,7 @@ export function People() {
 			{people.map((person) => (
 				<div
 					key={person.email}
-					className="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-5 pl-4 py-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400"
+					className="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-5 py-4 pl-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400"
 				>
 					<div className="flex-shrink-0">
 						<Image
