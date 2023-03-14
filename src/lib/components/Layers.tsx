@@ -1,5 +1,3 @@
-import { ChevronForward } from '@blueprintjs/icons/lib/esm/generated/20px/paths'
-
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 

@@ -128,7 +128,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 			<p className="c9">
-				<img src="/image1.png" />
+				<img src="/image1.png" alt="Illustration" />
 			</p>
 			<p className="c1 c5">
 				<span className="c0"></span>
