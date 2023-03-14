@@ -1,149 +1,121 @@
 00	Site
+00	Site annotation
 01	Landscape
 02	Permanent structures
-03	Vegetation (Plants, trees etc)
-04	Security (Fences etc.)
-05
-06	Services (parking)
-07
+03	Vegetation
+04	Security
+06	Services
 08	EL
 09	Infrastructure
 
 10	Venue
-11	Exterior Shell
-12	Inner structure, Galleries, door etc.
-13	Structural
-14
-15	Support Functions
+10	Venue annotation
+11	Exterior shell
+12	Inner structure
+13	Structural elements
+15	Support functions
 16	Soft goods
-17	House Seating
-18	EL / HVAC
+17	House seating
+18	EL, HVAC
 19	Infrastructure
 
 20	Rigging
-21	Super Structure
+20	Rigging annotation
+21	Superstructure
 22	Truss
-23	Pipes / Ladders / Drop Arms
+23	Pipes, ladders, drop arms
 24	Stands
 25	Automation
-26
-27	House Rigging
-28	Rigging Points
+27	House rigging
+28	Rigging points, hoists
 29	Infrastructure
 
 30	Scenic
+30	Scenic annotation
 31	Scaffolding
 32	Stage
 33	Risers
 34	Scenography
-35	Moving Scenography
+35	Moving scenography
 36	Fabric
-37
-38
+37	House scenic
 39	Infrastructure
 
 40	Lights
-41	Fixture Conventional
-42	Fixture Moving
-43	Fixture Effect
-44	Integrated / Practicals
-45
+40	Lights annotation
+41	Fixture conventional
+42	Fixture moving
+43	Fixture effect
+44	Integrated, practicals
 46	Follow spots
-47	House Lights
-48
+47	House lights
 49	Infrastructure
 
 50	Video
+50	Video annotation
 51	Projectors
-52	Video Surface
-53	Creative Video
-54
-55	Screens / Displays / Monitors
-56
-57	House Video
-58
+52	Video surface
+53	Creative video
+55	Screens, displays, monitors
+57	House video
 59	Infrastructure
 
-60	Sound
-61	PA Main
-62	PA Delay
-63	PA Fill
+60	Audio
+60	Audio annotation
+61	PA main
+62	PA delay
+63	PA fill
 64	Sub
 65	Monitors
-66	Microphones / Stands
-67	House Sound
-68
+66	Microphones, stands
+67	House audio
 69	Infrastructure
 
-
 70	Effects
-71	Pyro / SFX
+70	Effects annotation
+71	Pyro, SFX
 72	Lasers
-73
-74
-75
-76
-77
-78	Haze / Smoke etc.
+73	Water features
+78	Haze, smoke
 79	Infrastructure
 
-
 80	Event
+80	Event annotation
 81	Seating
-82	Platforms / Towers
-83	Barricades / Fences
+82	Platforms, towers
+83	Barricades, fences
 84	Functions
-85	Talent / Presenters
-86	People / Pigeons
-87	Bars / Booths / Service
-88
+85	Talent, presenters
+86	People, pigeons
+87	Bars, booths, service
 89	Infrastructure
 
-
 90	Broadcast
-91	OB Units
+90	Broadcast annotation
+91	OB units
 92	Cameras
-93	Jib / Rail / Grip
-94	Operators / Support Functions
+93	Jib, rail, grip
+94	Operators, support functions
 95	Monitors
-96
-97	House Cameras
-98
+97	House cameras
 99	Infrastructure
 
-
-900	Drawing Support
-901	Origin object / Datum
-902	2D Reference
-903	North-arrow
+900	Drawing support
+901	Reference
+902	Origin object, datum lines
+903	North arrow, celestial references
 904	Centerlines
 905	Non Constuction Lines
 906	Dimensions
 907	Text
-908	Print Specific
-909
+908	Print specific
 
-
-910	Software Support
+910	Software support
 911	Cameras
 912	Viewports
-913
-914	Focus Points / Lines
-915	Axis / Motion
-916
-917	None (VW Default class)
-918
-919
-
+914	Focus points, focus lines
+915	Axis, motion
+917	Default category
 
 920	Calculations
 921	Braceworks
-922
-923
-924
-925
-926
-927
-928
-929
-

@@ -44,7 +44,7 @@ export function Flyover({
 
 											</div>
 											<div className="mt-1">
-												<p className="text-sm text-gray-300">v1.0.0 Proposals / Draft</p>
+												<p className="text-sm text-gray-300">v1.0.0 Proposals</p>
 											</div>
 										</div>
 										<div className="relative flex-1 py-6 px-4 text-white sm:px-6">{children}</div>

@@ -1,3 +1,3 @@
-# Event Collaboration Structure 
+# Entertainment Collaboration Structure
 
 Website Repo
