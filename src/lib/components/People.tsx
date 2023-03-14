@@ -22,8 +22,9 @@ const people = [
 	{
 		name: 'William Viker',
 		email: 'william@trippelm.no',
-		role: 'Trippel-M / Optilux',
+		role: 'Frontir Meda & Technology Group',
 		imageUrl: '/people/william.png',
+		insta: 'https://www.linkedin.com/in/williamviker/',
 	},
 	{
 		name: 'Stefan Bahrawy',
@@ -43,9 +44,10 @@ export function People() {
 	return (
 		<div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
 			{people.map((person) => (
-				<div
+				<a
+					href={person.insta ? person.insta : `mailto:${person.email}`}
 					key={person.email}
-					className="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-5 py-4 pl-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400"
+					className="relative flex items-center hover:no-underline space-x-3 rounded-lg border border-gray-300 bg-white px-5 py-4 pl-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400 cursor-pointer"
 				>
 					<div className="flex-shrink-0">
 						<Image
@@ -58,10 +60,6 @@ export function People() {
 					</div>
 					<div className="min-w-0 flex-1">
 						<div
-							onClick={(e) => {
-								e.preventDefault()
-								window.location.href = `mailto:${person.email}`
-							}}
 							className="focus:outline-none"
 						>
 							<span className="absolute inset-0" aria-hidden="true" />
@@ -69,7 +67,7 @@ export function People() {
 							<p className="truncate text-sm text-gray-500">{person.role}</p>
 						</div>
 					</div>
-				</div>
+				</a>
 			))}
 		</div>
 	)
