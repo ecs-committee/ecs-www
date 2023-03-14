@@ -12,6 +12,8 @@ spec:
         - hosts:
               - layerstructure.com
               - www.layerstructure.com
+              - layerstruktur.no
+              - www.layerstruktur.no
           secretName: ecs-www-tls
     rules:
         - host: layerstructure.com
