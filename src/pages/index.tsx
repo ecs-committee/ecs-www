@@ -51,18 +51,18 @@ const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#051379] to-[#161122]">
-				<div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-					<h1 className="text-center text-5xl font-extrabold tracking-tight text-white sm:text-[4rem]">
+				<div className="container flex flex-col items-center justify-center gap-12 px-7 py-32">
+					<h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[4rem] md:text-center">
 						Entertainment <span className="text-[hsl(198,90%,77%)]">Collaboration</span> Structure
 					</h1>
-					<p className="text-center text-white sm:text-[1.5rem] md:w-[90vw] lg:w-[50vw]">
+					<p className="text-[1.2rem] text-white md:w-[90vw] md:text-center md:text-[1.5rem] lg:w-[50vw]">
 						We&apos;re a small committee of representatives from different companies within the broadcast,
 						music and entertainment industry aiming to make it easier for everyone to create, collaborate
 						and merge technical drawings using a standardized set of layers/classes and best practices based
 						on collective experience.
 					</p>
 
-					<div className="grid w-[90vw] grid-cols-1 gap-4 sm:grid-cols-3 md:w-[80vw] md:gap-8 lg:w-[70vw] xl:w-[50vw]">
+					<div className="grid w-[90vw] grid-cols-1 gap-4 sm:grid-cols-3 md:w-[80vw] md:gap-8 md:py-5 lg:w-[70vw] xl:w-[50vw]">
 						<div
 							className="flex cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
 							onClick={() => {
@@ -73,7 +73,7 @@ const Home: NextPage = () => {
 							<h3 className="text-2xl font-bold">Vectorworks ⤵</h3>
 							<div className="text-lg">
 								<ul className="ml-6 mt-0 list-disc">
-									<li>v1.0.0</li>
+									<li>ecs-v1.0.0.vwx</li>
 								</ul>
 							</div>
 						</div>
@@ -88,7 +88,7 @@ const Home: NextPage = () => {
 							<h3 className="text-2xl font-bold">WYSIWYG ⤵</h3>
 							<div className="text-lg">
 								<ul className="ml-6 mt-0 list-disc">
-									<li>v1.0.0</li>
+									<li>ecs-v1.0.0.wyg</li>
 								</ul>
 							</div>
 						</div>
@@ -103,11 +103,42 @@ const Home: NextPage = () => {
 							<h3 className="text-2xl font-bold">SketchUp ⤵</h3>
 							<div className="text-lg">
 								<ul className="ml-6 mt-0 list-disc">
-									<li>v1.0.0</li>
+									<li>ecs-v1.0.0.skp</li>
 								</ul>
 							</div>
 						</div>
 					</div>
+
+					<div className="px-0 text-lg text-white md:w-[90vw] md:text-center lg:max-w-6xl">
+						<p className="c1 mb-6">
+							<span className="c0">
+								The Entertainment Collaboration Structure (ECS) is a comprehensive tool designed to help
+								you structure your drawing in a simple and easy to understand manner. It is not designed
+								to be a complete manual with every single item and aspect of a drawing defined, rather
+								we aim to give you the building blocks needed and for you to expand upon when the
+								project calls for specific solutions that are not defined in this structure.
+							</span>
+						</p>
+						<p className="c1 mb-6">
+							<span className="c0">
+								The project started as a tool to simplify the process of migrating data from one drawing
+								software to another, centered around the needs of the lighting, sound, video and rigging
+								departments in the live entertainment sector. The goal was to move items, symbols and
+								objects from one file to another without losing track of where and to whom they belonged
+								in the drawing. This has evolved into a more comprehensive tool for organizing the
+								entirety of the drawing, including the broader spectrum of disciplines usually
+								associated with live events and television productions. &nbsp;
+							</span>
+						</p>
+						<p className="c1">
+							<span className="c0">
+								The structure is maintained by volunteer efforts by industry professionals. It is a
+								not-for-profit initiative and all assets pertaining to this standard are licensed under
+								a Creative Commons Attribution-ShareAlike license.
+							</span>
+						</p>
+					</div>
+
 					<>
 						<button
 							type="button"
@@ -138,7 +169,7 @@ const Home: NextPage = () => {
 							Release Notes v1
 						</h2>
 
-						<div className="std-desc mx-auto max-w-6xl px-3 text-white">
+						<div className="std-desc mx-auto max-w-6xl px-0 text-white">
 							<V1Desc />
 						</div>
 					</>

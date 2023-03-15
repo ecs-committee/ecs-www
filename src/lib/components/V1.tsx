@@ -1,41 +1,6 @@
 export function V1Desc() {
 	return (
 		<>
-			<h3 className="c9">Introduction</h3>
-
-			<p className="c1">
-				<span className="c0">
-					The Entertainment Collaboration Structure (ECS) is a comprehensive tool designed to help you
-					structure your drawing in a simple and easy to understand manner. It is not designed to be a
-					complete manual with every single item and aspect of a drawing defined, rather we aim to give you
-					the building blocks needed and for you to expand upon when the project calls for specific solutions
-					that are not defined in this structure.
-				</span>
-			</p>
-			<p className="c1 c5">
-				<span className="c0"></span>
-			</p>
-			<p className="c1">
-				<span className="c0">
-					The project started as a tool to simplify the process of migrating data from one drawing software to
-					another, centered around the needs of the lighting, sound, video and rigging departments in the live
-					entertainment sector. The goal was to move items, symbols and objects from one file to another
-					without losing track of where and to whom they belonged in the drawing. This has evolved into a more
-					comprehensive tool for organizing the entirety of the drawing, including the broader spectrum of
-					disciplines usually associated with live events and television productions. &nbsp;
-				</span>
-			</p>
-			<p className="c1 c5">
-				<span className="c0"></span>
-			</p>
-			<p className="c1">
-				<span className="c0">
-					The structure is maintained by volunteer efforts by industry professionals. It is a not-for-profit
-					initiative and all assets pertaining to this standard are licensed under a Creative Commons
-					Attribution-ShareAlike license.
-				</span>
-			</p>
-
 			<h3 className="c9">License and versioning</h3>
 
 			<p className="c1">
