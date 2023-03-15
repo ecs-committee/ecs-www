@@ -22,7 +22,39 @@ const Home: NextPage = () => {
 		<>
 			<Head>
 				<title>Entertainment Collaboration Structure</title>
+				<meta
+					name="description"
+					content="We're a small committee of representatives from different companies within the broadcast,
+						music and entertainment industry aiming to make it easier for everyone to create, collaborate
+						and merge technical drawings using a standardized set of layers/classes and best practices based
+						on collective experience."
+				/>
 				<meta name="description" content="Event Collaboration Structure Committee" />
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<meta name="theme-color" content="#282b6e" />
+				<meta name="apple-mobile-web-app-status-bar-style" content="#282b6e" />
+				<meta name="msapplication-navbutton-color" content="#282b6e" />
+				<meta name="apple-mobile-web-app-capable" content="yes" />
+				<meta name="mobile-web-app-capable" content="yes" />
+				<meta name="apple-mobile-web-app-title" content="Entertainment Collaboration Structure" />
+				<meta name="application-name" content="Entertainment Collaboration Structure" />
+
+				<meta property="og:title" content="Entertainment Collaboration Structure" />
+				<meta
+					property="og:description"
+					content="We're a small committee of representatives from different companies within the broadcast,
+						music and entertainment industry aiming to make it easier for everyone to create, collaborate
+						and merge technical drawings using a standardized set of layers/classes and best practices based
+						on collective experience."
+				/>
+				<meta property="og:type" content="website" />
+				<meta property="og:url" content="https://layerstructure.com" />
+				<meta property="og:site_name" content="Entertainment Collaboration Structure" />
+				<meta property="og:image" content="https://layerstructure.com/some.png" />
+				<meta property="og:image:width" content="512" />
+				<meta property="og:image:height" content="512" />
+				<meta property="og:image:alt" content="Entertainment Collaboration Structure" />
+
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#051379] to-[#161122]">
