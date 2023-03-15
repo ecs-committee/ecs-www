@@ -10,7 +10,7 @@ const people = [
 	{
 		name: 'Joakim Faxvaag',
 		email: 'joakim.faxvaag@nrk.no',
-		role: 'NRK',
+		role: 'Norwegian broadcasting corporation',
 		imageUrl: '/people/joakim.png',
 	},
 	{
@@ -22,7 +22,7 @@ const people = [
 	{
 		name: 'William Viker',
 		email: 'william@trippelm.no',
-		role: 'Frontir Meda & Technology Group',
+		role: 'Frontir Media & Technology Group',
 		imageUrl: '/people/william.png',
 		insta: 'https://www.linkedin.com/in/williamviker/',
 	},
@@ -35,7 +35,7 @@ const people = [
 	{
 		name: 'Ola Bråten',
 		email: 'ola.braaten@nrk.no',
-		role: 'NRK',
+		role: 'Norwegian broadcasting corporation',
 		imageUrl: '/people/ola.png',
 	},
 ]
@@ -47,7 +47,7 @@ export function People() {
 				<a
 					href={person.insta ? person.insta : `mailto:${person.email}`}
 					key={person.email}
-					className="relative flex items-center hover:no-underline space-x-3 rounded-lg border border-gray-300 bg-white px-5 py-4 pl-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400 cursor-pointer"
+					className="relative flex cursor-pointer items-center space-x-3 rounded-lg border border-gray-300 bg-white px-5 py-4 pl-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400 hover:no-underline"
 				>
 					<div className="flex-shrink-0">
 						<Image
@@ -59,9 +59,7 @@ export function People() {
 						/>
 					</div>
 					<div className="min-w-0 flex-1">
-						<div
-							className="focus:outline-none"
-						>
+						<div className="focus:outline-none">
 							<span className="absolute inset-0" aria-hidden="true" />
 							<p className="text-sm font-medium text-gray-900">{person.name}</p>
 							<p className="truncate text-sm text-gray-500">{person.role}</p>
