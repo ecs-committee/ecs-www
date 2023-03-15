@@ -24,12 +24,8 @@ const Home: NextPage = () => {
 				<title>Entertainment Collaboration Structure</title>
 				<meta
 					name="description"
-					content="We're a small committee of representatives from different companies within the broadcast,
-						music and entertainment industry aiming to make it easier for everyone to create, collaborate
-						and merge technical drawings using a standardized set of layers/classes and best practices based
-						on collective experience."
+					content="The Entertainment Collaboration Structure (ECS) is a comprehensive tool designed to help you structure your drawing in a simple and easy to understand manner. It is not designed to be a complete manual with every single item and aspect of a drawing defined, rather we aim to give you the building blocks needed and for you to expand upon when the project calls for specific solutions that are not defined in this structure."
 				/>
-				<meta name="description" content="Event Collaboration Structure Committee" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<meta name="theme-color" content="#282b6e" />
 				<meta name="apple-mobile-web-app-status-bar-style" content="#282b6e" />
@@ -42,15 +38,12 @@ const Home: NextPage = () => {
 				<meta property="og:title" content="Entertainment Collaboration Structure" />
 				<meta
 					property="og:description"
-					content="We're a small committee of representatives from different companies within the broadcast,
-						music and entertainment industry aiming to make it easier for everyone to create, collaborate
-						and merge technical drawings using a standardized set of layers/classes and best practices based
-						on collective experience."
+					content="The Entertainment Collaboration Structure (ECS) is a comprehensive tool designed to help you structure your drawing in a simple and easy to understand manner. It is not designed to be a complete manual with every single item and aspect of a drawing defined, rather we aim to give you the building blocks needed and for you to expand upon when the project calls for specific solutions that are not defined in this structure."
 				/>
 				<meta property="og:type" content="website" />
 				<meta property="og:url" content="https://layerstructure.com" />
 				<meta property="og:site_name" content="Entertainment Collaboration Structure" />
-				<meta property="og:image" content="https://layerstructure.com/some.png" />
+				<meta property="og:image" content="/some.png" />
 				<meta property="og:image:width" content="512" />
 				<meta property="og:image:height" content="512" />
 				<meta property="og:image:alt" content="Entertainment Collaboration Structure" />
