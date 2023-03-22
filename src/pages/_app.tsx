@@ -10,14 +10,18 @@ import '../styles/globals.css'
 import '../styles/index.css'
 
 import { SessionProvider } from '../lib/contexts/session'
+import { Analytics } from '../lib/components/analytics'
 
 FocusStyleManager.onlyShowFocusOnTabs()
 
 const MyApp: AppType = ({ Component, pageProps }) => {
 	return (
-		<SessionProvider>
-			<Component {...pageProps} />
-		</SessionProvider>
+		<>
+			<Analytics />
+			<SessionProvider>
+				<Component {...pageProps} />
+			</SessionProvider>
+		</>
 	)
 }
 

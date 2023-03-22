@@ -26,6 +26,10 @@ const Home: NextPage = () => {
 					name="description"
 					content="The Entertainment Collaboration Structure (ECS) is a comprehensive tool designed to help you structure your drawing in a simple and easy to understand manner. It is not designed to be a complete manual with every single item and aspect of a drawing defined, rather we aim to give you the building blocks needed and for you to expand upon when the project calls for specific solutions that are not defined in this structure."
 				/>
+				<meta
+					name="keywords"
+					content="vectorworks,vwx,skp,layers,classes,standard,entertainment,collaboration,structure,drawing,production,venue,rigging,scenic,lights,video,audio,effects,event,broadcast,drawing,software"
+				/>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<meta name="theme-color" content="#282b6e" />
 				<meta name="apple-mobile-web-app-status-bar-style" content="#282b6e" />
@@ -62,7 +66,7 @@ const Home: NextPage = () => {
 						on collective experience.
 					</p>
 
-					<div className="grid w-[90vw] grid-cols-1 gap-4 sm:grid-cols-3 md:w-[80vw] md:gap-8 md:py-5 lg:w-[70vw] xl:w-[50vw]">
+					<div className="grid w-[90vw] max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2 md:w-[80vw] md:gap-8 md:py-5 lg:w-[70vw] xl:w-[50vw]">
 						<div
 							className="flex cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
 							onClick={() => {
@@ -104,6 +108,21 @@ const Home: NextPage = () => {
 							<div className="text-lg">
 								<ul className="ml-6 mt-0 list-disc">
 									<li>ecs-v1.0.0.skp</li>
+								</ul>
+							</div>
+						</div>
+
+						<div
+							className="flex cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+							onClick={() => {
+								// window location
+								window.location.href = '/v1/ecs-v1.0.0.c2p'
+							}}
+						>
+							<h3 className="text-2xl font-bold">Capture ⤵</h3>
+							<div className="text-lg">
+								<ul className="ml-6 mt-0 list-disc">
+									<li>ecs-v1.0.0.c2p</li>
 								</ul>
 							</div>
 						</div>
