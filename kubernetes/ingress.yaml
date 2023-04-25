@@ -12,11 +12,37 @@ spec:
         - hosts:
               - layerstructure.com
               - www.layerstructure.com
-              - layerstruktur.no
-              - www.layerstruktur.no
           secretName: ecs-www-tls
     rules:
         - host: layerstructure.com
+          http:
+              paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: ecs-www
+                            port:
+                                number: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: ecs-www-no
+    annotations:
+        kubernetes.io/ingress.class: nginx
+        cert-manager.io/cluster-issuer: letsencrypt
+        nginx.ingress.kubernetes.io/server-snippet: |
+          return 301 https://layerstructure.com$request_uri;
+        nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+spec:
+    tls:
+        - hosts:
+              - layerstruktur.no
+              - www.layerstruktur.no
+          secretName: ecs-www-no-tls
+    rules:
+        - host: layerstruktur.no
           http:
               paths:
                   - path: /
