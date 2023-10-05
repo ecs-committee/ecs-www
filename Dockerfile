@@ -1,4 +1,4 @@
-FROM node:18-alpine AS deps
+FROM node:18 AS deps
 
 WORKDIR /app
 
@@ -18,7 +18,7 @@ RUN mkdir /root/.ssh && (echo "$SSH_KEY64" | base64 -d > /root/.ssh/id_rsa) && \
 	yarn install --frozen-lockfile && yarn cache clean && \
 	rm -rf /root/.ssh/
 
-FROM node:18-alpine AS runner
+FROM node:18 AS runner
 WORKDIR /app
 
 # Commented out user parts for now, because of permission issues
