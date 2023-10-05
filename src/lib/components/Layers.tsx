@@ -71,7 +71,7 @@ export function Layers({
 						{layer.children && (layer.id === activeMain || search.length > 0) && (
 							<div className="pl-10">
 								{layer.children
-									.filter((f) => {
+									.filter((f: any) => {
 										if (search.length > 0) {
 											return f.label.toLowerCase().includes(search.toLowerCase())
 										}
