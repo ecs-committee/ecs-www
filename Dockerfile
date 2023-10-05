@@ -1,4 +1,4 @@
-FROM node:18 AS deps
+FROM node:lts AS deps
 
 WORKDIR /app
 
@@ -6,6 +6,7 @@ ENV DATABASE_URL=file:./db.sqlite
 
 ARG SSH_KEY64
 ARG WS_URL="/ws"
+
 RUN npm config set shell sh
 
 COPY package.json package-lock.json* prisma ./
@@ -15,7 +16,7 @@ RUN mkdir /root/.ssh && (echo "$SSH_KEY64" | base64 -d > /root/.ssh/id_rsa) && \
 	yarn install --frozen-lockfile && yarn cache clean && \
 	rm -rf /root/.ssh/
 
-FROM node:18 AS runner
+FROM node:lts AS runner
 WORKDIR /app
 
 # Commented out user parts for now, because of permission issues

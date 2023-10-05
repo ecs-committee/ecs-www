@@ -1,4 +1,6 @@
+import { Spinner } from '@blueprintjs/core'
 import { useRouter } from 'next/router'
+import { Suspense } from 'react'
 import { useSession } from '../../hooks/useSession'
 
 export default function AuthenticationRequired({ children }: { children: React.ReactNode }) {
@@ -6,7 +8,7 @@ export default function AuthenticationRequired({ children }: { children: React.R
 	const { session, loading } = useSession()
 
 	if (loading) {
-		return <div>loading...</div>
+		return <Spinner size={128} />
 	}
 
 	if (!session.user) {
