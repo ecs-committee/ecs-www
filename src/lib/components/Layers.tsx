@@ -119,7 +119,26 @@ export function Layers({
 				{json.map((layer: any) => (
 					<div key={layer.id}>
 						{layer.children.map((child: any) => (
-							<div key={child.id}>
+							<div
+								key={child.id}
+								onClick={() => {
+									// descRef is a reference to a div in the main page
+									// that contains a lot of h4 tags. We want to scroll
+									// to the tag that matches child.label as content
+
+									// @ts-ignore
+									const h4s = descRef.current.querySelectorAll('h4')
+									h4s.forEach((h4: any) => {
+										if (h4.innerText.includes(child.label)) {
+											h4.scrollIntoView({
+												behavior: 'smooth',
+												block: 'center',
+												inline: 'center',
+											})
+										}
+									})
+								}}
+							>
 								{layer.label}-{child.label}
 							</div>
 						))}
