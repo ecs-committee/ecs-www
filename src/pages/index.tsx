@@ -21,6 +21,7 @@ const Home: NextPage = () => {
 
 	const [search, setSearch] = useState<string>('')
 	const searchRef = useRef<HTMLInputElement>(null)
+	const descRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 		searchRef.current?.focus()
@@ -69,7 +70,7 @@ const Home: NextPage = () => {
 
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#051379] to-[#161122]">
+			<main className="from-[#051379] to-[#161122] flex min-h-screen flex-col items-center justify-center bg-gradient-to-b">
 				<div className="container flex flex-col items-center justify-center gap-12 px-7 py-32">
 					<input
 						type="text"
@@ -82,16 +83,16 @@ const Home: NextPage = () => {
 						}}
 					/>
 
-					<h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[4rem] md:text-center">
+					<h1 className="sm:text-[4rem] text-5xl font-extrabold tracking-tight text-white md:text-center">
 						Entertainment <span className="text-[hsl(198,90%,77%)]">Collaboration</span> Structure
 					</h1>
-					<p className="text-[1.2rem] text-white md:w-[90vw] md:text-center md:text-[1.5rem] lg:w-[50vw]">
+					<p className="text-[1.2rem] md:w-[90vw] md:text-[1.5rem] lg:w-[50vw] text-white md:text-center">
 						We&apos;re a small committee of representatives from different companies within the broadcast,
 						music and entertainment industry aiming to make it easier for everyone to create, collaborate
 						and merge technical drawings using a standardized set of layers/classes and best practices based
 						on collective experience.
 					</p>
-					<div className="grid w-[90vw] max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2 md:w-[80vw] md:gap-8 md:py-5 lg:w-[70vw] xl:w-[50vw]">
+					<div className="w-[90vw] md:w-[80vw] lg:w-[70vw] xl:w-[50vw] grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8 md:py-5">
 						<div
 							className="flex cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
 							onClick={() => {
@@ -152,7 +153,7 @@ const Home: NextPage = () => {
 							</div>
 						</div>
 					</div>
-					<div className="px-0 text-lg text-white md:w-[90vw] md:text-center lg:max-w-6xl">
+					<div className="md:w-[90vw] px-0 text-lg text-white md:text-center lg:max-w-6xl">
 						<p className="c1 mb-6">
 							<span className="c0">
 								The Entertainment Collaboration Structure (ECS) is a comprehensive tool designed to help
@@ -197,7 +198,7 @@ const Home: NextPage = () => {
 							Click here for a quick overview
 						</button>
 
-						<h2 className="mt-16 text-3xl font-extrabold tracking-tight text-white sm:text-[2.5rem]">
+						<h2 className="sm:text-[2.5rem] mt-16 text-3xl font-extrabold tracking-tight text-white">
 							Contributors
 						</h2>
 
@@ -208,7 +209,12 @@ const Home: NextPage = () => {
 							onClose={() => {
 								setDrawerOpen(!drawerOpen)
 								setSearch('')
-								setTimeout(() => searchRef.current?.focus(), 200)
+								setTimeout(() => {
+									// only focus if we're at top of the page scroll
+									if (window.scrollY === 0) {
+										searchRef.current?.focus()
+									}
+								}, 200)
 							}}
 						>
 							<Layers
@@ -217,14 +223,15 @@ const Home: NextPage = () => {
 								onSearch={(e) => {
 									setSearch(e.target.value)
 								}}
+								descRef={descRef}
 							/>
 						</Flyover>
 
-						<h2 className="mt-16 text-3xl font-extrabold tracking-tight text-white sm:text-[2.5rem]">
+						<h2 className="sm:text-[2.5rem] mt-16 text-3xl font-extrabold tracking-tight text-white">
 							Release Notes v1
 						</h2>
 
-						<div className="std-desc mx-auto max-w-6xl px-0 text-white">
+						<div className="std-desc mx-auto max-w-6xl px-0 text-white" ref={descRef}>
 							<V1Desc />
 						</div>
 					</>

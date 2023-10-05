@@ -1,7 +1,7 @@
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 
-import { useEffect, useRef, useState } from 'react'
+import { RefObject, useEffect, useRef, useState } from 'react'
 
 let json = require('./layers.json')
 
@@ -20,10 +20,12 @@ export function Layers({
 	search,
 	onClearSearch,
 	onSearch,
+	descRef,
 }: {
 	search: string
 	onClearSearch: () => void
 	onSearch: (e: any) => void
+	descRef: RefObject<HTMLDivElement>
 }) {
 	const [activeMain, setActiveMain] = useState<null | string>(null)
 	const [currentSearchFocus, setCurrentSearchFocus] = useState<boolean>(false)
@@ -84,6 +86,23 @@ export function Layers({
 													'font-bold text-white ' +
 													(search.length > 1 ? 'text-xl text-blue-400' : '')
 												}
+												onClick={() => {
+													// descRef is a reference to a div in the main page
+													// that contains a lot of h4 tags. We want to scroll
+													// to the tag that matches child.label as content
+
+													// @ts-ignore
+													const h4s = descRef.current.querySelectorAll('h4')
+													h4s.forEach((h4: any) => {
+														if (h4.innerText.includes(child.label)) {
+															h4.scrollIntoView({
+																behavior: 'smooth',
+																block: 'center',
+																inline: 'center',
+															})
+														}
+													})
+												}}
 											>
 												{child.label}
 											</div>
