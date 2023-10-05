@@ -8,7 +8,7 @@ export default function AuthenticationProhibited({ children }: { children: React
 	const { session, loading } = useSession()
 
 	if (loading) {
-		return <Spinner size={128} />
+		return <div>loading...</div>
 	}
 
 	if (session.user) {
