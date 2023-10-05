@@ -1,5 +1,5 @@
 import { type NextPage } from 'next'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Spinner } from '@blueprintjs/core'
 import { useSettings } from '../lib/components/auth/SettingsHook'
 import { trpc } from '../utils/trpc'
@@ -18,6 +18,21 @@ const Home: NextPage = () => {
 	const { query } = useRouter()
 	const { magi } = query
 	const [drawerOpen, setDrawerOpen] = useState<boolean>(false)
+
+	const [search, setSearch] = useState<string>('')
+	const searchRef = useRef<HTMLInputElement>(null)
+
+	useEffect(() => {
+		searchRef.current?.focus()
+	}, [])
+
+	useEffect(() => {
+		if (!drawerOpen && search !== '') {
+			setDrawerOpen(true)
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [search])
+
 	return (
 		<>
 			<Head>
@@ -56,6 +71,17 @@ const Home: NextPage = () => {
 			</Head>
 			<main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#051379] to-[#161122]">
 				<div className="container flex flex-col items-center justify-center gap-12 px-7 py-32">
+					<input
+						type="text"
+						ref={searchRef}
+						className="w-full max-w-4xl rounded-xl bg-white/10 p-4 text-xl text-white"
+						placeholder="Search.."
+						value={search}
+						onChange={(e) => {
+							setSearch(e.target.value)
+						}}
+					/>
+
 					<h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[4rem] md:text-center">
 						Entertainment <span className="text-[hsl(198,90%,77%)]">Collaboration</span> Structure
 					</h1>
@@ -65,7 +91,6 @@ const Home: NextPage = () => {
 						and merge technical drawings using a standardized set of layers/classes and best practices based
 						on collective experience.
 					</p>
-
 					<div className="grid w-[90vw] max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2 md:w-[80vw] md:gap-8 md:py-5 lg:w-[70vw] xl:w-[50vw]">
 						<div
 							className="flex cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
@@ -127,7 +152,6 @@ const Home: NextPage = () => {
 							</div>
 						</div>
 					</div>
-
 					<div className="px-0 text-lg text-white md:w-[90vw] md:text-center lg:max-w-6xl">
 						<p className="c1 mb-6">
 							<span className="c0">
@@ -157,7 +181,6 @@ const Home: NextPage = () => {
 							</span>
 						</p>
 					</div>
-
 					<>
 						<button
 							type="button"
@@ -180,8 +203,21 @@ const Home: NextPage = () => {
 
 						<People />
 
-						<Flyover isOpen={drawerOpen} onClose={() => setDrawerOpen(!drawerOpen)}>
-							<Layers />
+						<Flyover
+							isOpen={drawerOpen}
+							onClose={() => {
+								setDrawerOpen(!drawerOpen)
+								setSearch('')
+								setTimeout(() => searchRef.current?.focus(), 200)
+							}}
+						>
+							<Layers
+								search={search}
+								onClearSearch={() => setSearch('')}
+								onSearch={(e) => {
+									setSearch(e.target.value)
+								}}
+							/>
 						</Flyover>
 
 						<h2 className="mt-16 text-3xl font-extrabold tracking-tight text-white sm:text-[2.5rem]">

@@ -1,7 +1,7 @@
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 let json = require('./layers.json')
 
@@ -16,10 +16,35 @@ json.sort((a: any, b: any) => {
 	}
 })
 
-export function Layers() {
+export function Layers({
+	search,
+	onClearSearch,
+	onSearch,
+}: {
+	search: string
+	onClearSearch: () => void
+	onSearch: (e: any) => void
+}) {
 	const [activeMain, setActiveMain] = useState<null | string>(null)
+	const [currentSearchFocus, setCurrentSearchFocus] = useState<boolean>(false)
+	const searchRef = useRef<HTMLInputElement>(null)
+
+	useEffect(() => {
+		if (searchRef.current) {
+			searchRef.current.focus()
+		}
+	})
+
 	return (
 		<>
+			<input
+				ref={searchRef}
+				type="text"
+				className="w-full rounded p-2 text-black"
+				placeholder="Search"
+				value={search}
+				onChange={onSearch}
+			/>
 			<h3 className="my-2 text-xl">Tree view</h3>
 			<div className="">
 				{json.map((layer: any) => (
@@ -43,13 +68,27 @@ export function Layers() {
 							</span>
 							{layer.label}
 						</div>
-						{layer.children && layer.id === activeMain && (
+						{layer.children && (layer.id === activeMain || search.length > 0) && (
 							<div className="pl-10">
-								{layer.children.map((child: any) => (
-									<div key={child.id}>
-										<div className="font-bold text-white">{child.label}</div>
-									</div>
-								))}
+								{layer.children
+									.filter((f) => {
+										if (search.length > 0) {
+											return f.label.toLowerCase().includes(search.toLowerCase())
+										}
+										return true
+									})
+									.map((child: any) => (
+										<div key={child.id}>
+											<div
+												className={
+													'font-bold text-white ' +
+													(search.length > 1 ? 'text-xl text-blue-400' : '')
+												}
+											>
+												{child.label}
+											</div>
+										</div>
+									))}
 							</div>
 						)}
 					</div>
