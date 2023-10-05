@@ -9,7 +9,7 @@ ARG WS_URL="/ws"
 
 RUN npm config set shell sh
 
-COPY package.json package-lock.json* prisma ./
+COPY package.json yarn.lock prisma ./
 
 RUN mkdir /root/.ssh && (echo "$SSH_KEY64" | base64 -d > /root/.ssh/id_rsa) && \
 	ssh-keyscan github.com > /root/.ssh/known_hosts && chmod 600 -R /root/.ssh && \
