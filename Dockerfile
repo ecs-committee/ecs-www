@@ -6,7 +6,7 @@ ENV DATABASE_URL=file:./db.sqlite
 
 ARG SSH_KEY64
 ARG WS_URL="/ws"
-
+RUN apk update && apk add openssh
 RUN npm config set shell sh
 
 COPY package.json package-lock.json* prisma ./
