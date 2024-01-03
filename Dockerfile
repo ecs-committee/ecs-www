@@ -1,4 +1,4 @@
-FROM node:18.18 AS deps
+FROM node:18.18-alpine AS deps
 
 WORKDIR /app
 
@@ -6,6 +6,8 @@ ENV DATABASE_URL=file:./db.sqlite
 
 ARG SSH_KEY64
 ARG WS_URL="/ws"
+
+RUN apk add --no-cache git openssh libc6-compat
 
 RUN npm config set shell sh
 
@@ -16,7 +18,7 @@ RUN mkdir /root/.ssh && (echo "$SSH_KEY64" | base64 -d > /root/.ssh/id_rsa) && \
 	yarn install --frozen-lockfile && yarn cache clean && \
 	rm -rf /root/.ssh/
 
-FROM node:18.18 AS runner
+FROM node:18.18-alpine AS runner
 WORKDIR /app
 
 # Commented out user parts for now, because of permission issues
