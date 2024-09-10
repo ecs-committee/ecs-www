@@ -22,7 +22,7 @@ const people = [
 	{
 		name: 'William Viker',
 		email: 'william@trippelm.no',
-		role: 'Frontir Media & Technology Group',
+		role: 'Bitfocus',
 		imageUrl: '/people/william.png',
 		insta: 'https://www.linkedin.com/in/williamviker/',
 	},
