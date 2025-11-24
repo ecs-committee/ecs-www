@@ -34,6 +34,86 @@ const Home: NextPage = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [search])
 
+	// Helper function to highlight h4 and its following description paragraphs
+	const highlightCategoryBlock = (h4Element: HTMLElement) => {
+		// Add highlight class to h4 (already has invisible border, so no layout shift)
+		h4Element.classList.add('highlight-active')
+
+		// Find and highlight following paragraphs until next h4
+		let nextSibling = h4Element.nextElementSibling
+		const paragraphsToHighlight: HTMLElement[] = []
+
+		while (nextSibling) {
+			// Stop if we hit another h4 tag
+			if (nextSibling.tagName === 'H4') {
+				break
+			}
+			// Collect paragraph elements
+			if (nextSibling.tagName === 'P') {
+				paragraphsToHighlight.push(nextSibling as HTMLElement)
+			}
+			nextSibling = nextSibling.nextElementSibling
+		}
+
+		// Add highlight class to paragraphs (just background color, no layout change)
+		paragraphsToHighlight.forEach((p) => {
+			p.classList.add('highlight-active-description')
+		})
+
+		// Remove highlights after 2 seconds
+		setTimeout(() => {
+			h4Element.classList.remove('highlight-active')
+			paragraphsToHighlight.forEach((p) => {
+				p.classList.remove('highlight-active-description')
+			})
+		}, 2000)
+	}
+
+	// Handle hash navigation on page load
+	useEffect(() => {
+		const handleHashNavigation = () => {
+			const hash = window.location.hash.slice(1) // Remove #
+			if (hash) {
+				// Prevent browser's default hash scrolling
+				if (window.history.scrollRestoration) {
+					window.history.scrollRestoration = 'manual'
+				}
+
+				// Wait for content to be rendered (V1Desc component needs time to mount)
+				const scrollToHash = (attempt = 1) => {
+					const element = document.getElementById(hash)
+					if (element && element.tagName === 'H4') {
+						// Use scroll-margin-top that we set on h4 elements (scroll-mt-20 = 5rem)
+						const rect = element.getBoundingClientRect()
+						const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+						const targetY = rect.top + scrollTop - 80 // 80px offset for better visibility
+
+						window.scrollTo({
+							top: targetY,
+							behavior: 'smooth',
+						})
+
+						// Highlight the entire block (h4 + description)
+						highlightCategoryBlock(element as HTMLElement)
+					} else if (attempt < 5) {
+						// Retry up to 5 times with increasing delays
+						setTimeout(() => scrollToHash(attempt + 1), attempt * 200)
+					}
+				}
+
+				// Start scrolling after initial delay
+				setTimeout(() => scrollToHash(), 300)
+			}
+		}
+
+		// Handle hash on initial load
+		handleHashNavigation()
+
+		// Listen for hash changes
+		window.addEventListener('hashchange', handleHashNavigation)
+		return () => window.removeEventListener('hashchange', handleHashNavigation)
+	}, [])
+
 	return (
 		<>
 			<Head>
@@ -80,6 +160,10 @@ const Home: NextPage = () => {
 						value={search}
 						onChange={(e) => {
 							setSearch(e.target.value)
+							// Clear hash when searching
+							if (window.location.hash) {
+								window.history.replaceState(null, '', window.location.pathname + window.location.search)
+							}
 						}}
 					/>
 
@@ -219,9 +303,19 @@ const Home: NextPage = () => {
 						>
 							<Layers
 								search={search}
-								onClearSearch={() => setSearch('')}
+								onClearSearch={() => {
+									setSearch('')
+									// Clear hash when clearing search
+									if (window.location.hash) {
+										window.history.replaceState(null, '', window.location.pathname + window.location.search)
+									}
+								}}
 								onSearch={(e) => {
 									setSearch(e.target.value)
+									// Clear hash when searching
+									if (window.location.hash) {
+										window.history.replaceState(null, '', window.location.pathname + window.location.search)
+									}
 								}}
 								descRef={descRef}
 							/>

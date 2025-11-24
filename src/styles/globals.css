@@ -28,8 +28,75 @@ h4.c2 {
 	line-height: 1;
 	margin-bottom: 1rem;
 	margin-top: 3rem;
+	/* Invisible border to prevent layout shift on highlight */
+	border: 2px solid transparent;
+	border-radius: 0.25rem;
+	padding: 0.25rem 0.5rem;
+	margin-left: -0.5rem;
+	margin-right: -0.5rem;
 }
 
 .notinuse {
 	opacity: 0.3;
+}
+
+/* Highlight animation for active category - applied to h4 */
+.highlight-active {
+	animation: highlight-pulse 2s ease-in-out;
+	background-color: rgba(59, 130, 246, 0.2) !important;
+	border-color: rgba(59, 130, 246, 0.4) !important;
+}
+
+/* Highlight the description paragraphs that follow the h4 */
+.highlight-active-description {
+	animation: highlight-pulse-description 2s ease-in-out;
+	background-color: rgba(59, 130, 246, 0.15) !important;
+}
+
+.highlight-active button {
+	position: relative;
+	z-index: 10;
+}
+
+@keyframes highlight-pulse-description {
+	0% {
+		background-color: rgba(59, 130, 246, 0.2);
+	}
+	50% {
+		background-color: rgba(59, 130, 246, 0.15);
+	}
+	100% {
+		background-color: rgba(59, 130, 246, 0);
+	}
+}
+
+@keyframes highlight-pulse {
+	0% {
+		background-color: rgba(59, 130, 246, 0.4);
+		box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+	}
+	50% {
+		background-color: rgba(59, 130, 246, 0.3);
+		box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);
+	}
+	100% {
+		background-color: rgba(59, 130, 246, 0);
+		box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+	}
+}
+
+/* Ensure BlueprintJS toast container is visible and properly positioned */
+.bp4-toast-container {
+	position: fixed !important;
+	top: 20px !important;
+	left: 50% !important;
+	transform: translateX(-50%) !important;
+	right: auto !important;
+	z-index: 9999 !important;
+	pointer-events: none;
+	max-width: 90vw;
+}
+
+.bp4-toast-container .bp4-toast {
+	pointer-events: auto;
 }

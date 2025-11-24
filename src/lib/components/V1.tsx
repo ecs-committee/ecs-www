@@ -1,3 +1,112 @@
+import { useState } from 'react'
+import { LinkIcon } from '@heroicons/react/20/solid'
+import { OverlayToaster } from '@blueprintjs/core'
+
+// Helper function to generate anchor ID from category label
+function generateAnchorId(label: string): string {
+	return label
+		.toLowerCase()
+		.replace(/\s+/g, '-')
+		.replace(/[^a-z0-9-]/g, '')
+		.replace(/-+/g, '-')
+		.replace(/^-|-$/g, '')
+}
+
+// Create toaster instance - must be done outside React lifecycle
+let toasterInstance: ReturnType<typeof OverlayToaster.create> | null = null
+let toasterInitializing = false
+
+function getToaster() {
+	if (typeof window === 'undefined') return null
+	
+	if (!toasterInstance && !toasterInitializing) {
+		toasterInitializing = true
+		try {
+			// Ensure document.body exists
+			if (!document.body) {
+				setTimeout(() => {
+					toasterInitializing = false
+					getToaster()
+				}, 100)
+				return null
+			}
+			
+			// Create toaster instance - OverlayToaster.create() attaches to document.body automatically
+			toasterInstance = OverlayToaster.create({
+				position: 'top',
+				usePortal: true,
+			})
+		} catch (error) {
+			console.error('Failed to create toaster:', error)
+			toasterInitializing = false
+			return null
+		}
+		toasterInitializing = false
+	}
+	return toasterInstance
+}
+
+// Show toast notification
+function showToast(message: string) {
+	const toaster = getToaster()
+	
+	if (toaster && typeof toaster.show === 'function') {
+		try {
+			toaster.show({
+				message,
+				intent: 'success',
+				timeout: 2000,
+			})
+		} catch (error) {
+			console.error('Error showing toast:', error)
+			alert(message)
+		}
+	} else {
+		alert(message)
+	}
+}
+
+// Component for category headers with anchor and link icon
+function CategoryHeader({ label, className = 'c2' }: { label: string; className?: string }) {
+	const anchorId = generateAnchorId(label)
+	const [isHovered, setIsHovered] = useState(false)
+
+	const copyLink = (e: React.MouseEvent) => {
+		e.preventDefault()
+		e.stopPropagation()
+		const url = `${window.location.origin}${window.location.pathname}#${anchorId}`
+		navigator.clipboard.writeText(url).then(() => {
+			showToast('Link copied to clipboard!')
+		}).catch((err) => {
+			console.error('Failed to copy to clipboard:', err)
+			alert('Failed to copy link to clipboard')
+		})
+	}
+
+	return (
+		<h4
+			id={anchorId}
+			className={`${className} relative group scroll-mt-20 transition-all duration-200`}
+			onMouseEnter={() => setIsHovered(true)}
+			onMouseLeave={() => setIsHovered(false)}
+		>
+			{label}
+			<button
+				onClick={copyLink}
+				type="button"
+				className={`ml-2 inline-flex items-center text-blue-400 hover:text-blue-300 transition-opacity duration-200 ${
+					isHovered ? 'opacity-100' : 'opacity-30'
+				}`}
+				style={{ pointerEvents: 'auto', zIndex: 10 }}
+				aria-label="Copy link to this section"
+				title="Copy link to clipboard"
+			>
+				<LinkIcon className="h-4 w-4" />
+			</button>
+		</h4>
+	)
+}
+
 export function V1Desc() {
 	return (
 		<>
@@ -147,7 +256,7 @@ export function V1Desc() {
 
 			<h3 className="c9">Category Definitions</h3>
 
-			<h4 className="c2">00 Site</h4>
+			<CategoryHeader label="00 Site" />
 
 			<p className="c1">
 				<span className="c0">
@@ -158,7 +267,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">00 Site-00 Site annotation</h4>
+			<CategoryHeader label="00 Site-00 Site annotation" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -167,7 +276,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">00 Site-01 Landscape</h4>
+			<CategoryHeader label="00 Site-01 Landscape" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -177,7 +286,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">00 Site-02 Permanent structures</h4>
+			<CategoryHeader label="00 Site-02 Permanent structures" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -186,7 +295,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">00 Site-03 Vegetation</h4>
+			<CategoryHeader label="00 Site-03 Vegetation" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -195,7 +304,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">00 Site-04 Security</h4>
+			<CategoryHeader label="00 Site-04 Security" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -204,13 +313,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2 notinuse">00 Site-05 NOT IN USE</h4>
+			<CategoryHeader label="00 Site-05 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">00 Site-06 Services</h4>
+			<CategoryHeader label="00 Site-06 Services" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -221,13 +330,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2 notinuse">00 Site-07 NOT IN USE</h4>
+			<CategoryHeader label="00 Site-07 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">00 Site-08 EL</h4>
+			<CategoryHeader label="00 Site-08 EL" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -236,7 +345,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">00 Site-09 Infrastructure</h4>
+			<CategoryHeader label="00 Site-09 Infrastructure" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -247,7 +356,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">10 Venue: </h4>
+			<CategoryHeader label="10 Venue:" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -259,7 +368,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">10 Venue-10 Venue annotation</h4>
+			<CategoryHeader label="10 Venue-10 Venue annotation" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -268,7 +377,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">10 Venue-11 Exterior shell</h4>
+			<CategoryHeader label="10 Venue-11 Exterior shell" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -277,7 +386,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">10 Venue-12 Inner structure</h4>
+			<CategoryHeader label="10 Venue-12 Inner structure" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -287,7 +396,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">10 Venue-13 Structural elements</h4>
+			<CategoryHeader label="10 Venue-13 Structural elements" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -296,13 +405,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2 notinuse">10 Venue-14 NOT IN USE</h4>
+			<CategoryHeader label="10 Venue-14 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">10 Venue-15 Support functions</h4>
+			<CategoryHeader label="10 Venue-15 Support functions" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -315,7 +424,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">10 Venue-16 Soft goods</h4>
+			<CategoryHeader label="10 Venue-16 Soft goods" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -327,7 +436,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">10 Venue-17 House seating</h4>
+			<CategoryHeader label="10 Venue-17 House seating" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -341,7 +450,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">10 Venue-18 EL, HVAC</h4>
+			<CategoryHeader label="10 Venue-18 EL, HVAC" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -352,7 +461,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">10 Venue-19 Infrastructure</h4>
+			<CategoryHeader label="10 Venue-19 Infrastructure" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -362,7 +471,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">20 Rigging-20 Rigging annotation</h4>
+			<CategoryHeader label="20 Rigging-20 Rigging annotation" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -371,7 +480,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">20 Rigging-21 Superstructure</h4>
+			<CategoryHeader label="20 Rigging-21 Superstructure" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -380,7 +489,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">20 Rigging-22 Truss</h4>
+			<CategoryHeader label="20 Rigging-22 Truss" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -389,7 +498,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">20 Rigging-23 Pipes, ladders, drop arms</h4>
+			<CategoryHeader label="20 Rigging-23 Pipes, ladders, drop arms" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -401,7 +510,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">20 Rigging-24 Stands</h4>
+			<CategoryHeader label="20 Rigging-24 Stands" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -412,7 +521,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">20 Rigging-25 Automation</h4>
+			<CategoryHeader label="20 Rigging-25 Automation" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -423,13 +532,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2 notinuse">20 Rigging-26 NOT IN USE</h4>
+			<CategoryHeader label="20 Rigging-26 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">20 Rigging-27 House rigging</h4>
+			<CategoryHeader label="20 Rigging-27 House rigging" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -439,7 +548,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">20 Rigging-28 Rigging points, hoists</h4>
+			<CategoryHeader label="20 Rigging-28 Rigging points, hoists" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -448,7 +557,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">20 Rigging-29 Infrastructure</h4>
+			<CategoryHeader label="20 Rigging-29 Infrastructure" className="c2" />
 
 			<p className="c1">
 				<span>
@@ -459,7 +568,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">30 Scenic-30 Scenic annotation</h4>
+			<CategoryHeader label="30 Scenic-30 Scenic annotation" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -468,7 +577,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">30 Scenic-31 Scaffolding</h4>
+			<CategoryHeader label="30 Scenic-31 Scaffolding" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -476,13 +585,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">30 Scenic-32 Stage</h4>
+			<CategoryHeader label="30 Scenic-32 Stage" className="c2" />
 
 			<p className="c1">
 				<span className="c0">Platforms, legs and accessories such as railings and stairs.</span>
 			</p>
 
-			<h4 className="c2">30 Scenic-33 Risers</h4>
+			<CategoryHeader label="30 Scenic-33 Risers" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -492,7 +601,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">30 Scenic-34 Scenography</h4>
+			<CategoryHeader label="30 Scenic-34 Scenography" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -501,7 +610,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">30 Scenic-35 Moving scenography</h4>
+			<CategoryHeader label="30 Scenic-35 Moving scenography" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -511,7 +620,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">30 Scenic-36 Fabric</h4>
+			<CategoryHeader label="30 Scenic-36 Fabric" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -520,7 +629,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">30 Scenic-37 House scenic</h4>
+			<CategoryHeader label="30 Scenic-37 House scenic" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -529,13 +638,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2 notinuse">30 Scenic-38 NOT IN USE</h4>
+			<CategoryHeader label="30 Scenic-38 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">30 Scenic-39 Infrastructure</h4>
+			<CategoryHeader label="30 Scenic-39 Infrastructure" className="c2" />
 
 			<p className="c1">
 				<span>
@@ -546,7 +655,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">40 Lights-40 Lights annotation</h4>
+			<CategoryHeader label="40 Lights-40 Lights annotation" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -555,7 +664,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">40 Lights-41 Fixture conventional</h4>
+			<CategoryHeader label="40 Lights-41 Fixture conventional" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -579,7 +688,7 @@ export function V1Desc() {
 				<span className="c0">41 Par64 floor</span>
 			</p>
 
-			<h4 className="c2">40 Lights-42 Fixture moving</h4>
+			<CategoryHeader label="40 Lights-42 Fixture moving" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -602,7 +711,7 @@ export function V1Desc() {
 				<span className="c0">42 x4bar 20 upstage center</span>
 			</p>
 
-			<h4 className="c2">40 Lights-43 Fixture effect</h4>
+			<CategoryHeader label="40 Lights-43 Fixture effect" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -623,25 +732,25 @@ export function V1Desc() {
 				<span className="c0">43 LED Par64 stage left</span>
 			</p>
 
-			<h4 className="c2">40 Lights-44 Integrated, practicals</h4>
+			<CategoryHeader label="40 Lights-44 Integrated, practicals" className="c2" />
 
 			<p className="c1">
 				<span className="c0">Lightbulbs, lights built into set pieces, flashlights</span>
 			</p>
 
-			<h4 className="c2 notinuse">40 Lights-45 NOT IN USE</h4>
+			<CategoryHeader label="40 Lights-45 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">40 Lights-46 Follow spots</h4>
+			<CategoryHeader label="40 Lights-46 Follow spots" className="c2" />
 
 			<p className="c1">
 				<span className="c0">Lighting instruments that are manually operated by humans or by tracking.</span>
 			</p>
 
-			<h4 className="c2">40 Lights-47 House lights</h4>
+			<CategoryHeader label="40 Lights-47 House lights" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -649,13 +758,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2 notinuse">40 Lights-48 NOT IN USE</h4>
+			<CategoryHeader label="40 Lights-48 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">40 Lights-49 Infrastructure</h4>
+			<CategoryHeader label="40 Lights-49 Infrastructure" className="c2" />
 
 			<p className="c1">
 				<span>
@@ -666,7 +775,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">50 Video-50 Video annotation</h4>
+			<CategoryHeader label="50 Video-50 Video annotation" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -675,7 +784,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">50 Video-51 Projectors</h4>
+			<CategoryHeader label="50 Video-51 Projectors" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -683,7 +792,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">50 Video-52 Video surface</h4>
+			<CategoryHeader label="50 Video-52 Video surface" className="c2" />
 
 			<p className="c1">
 				<span>Video surface could be a projection screen, curtain, LED wall or other surfaces. </span>
@@ -693,7 +802,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">50 Video-53 Creative video</h4>
+			<CategoryHeader label="50 Video-53 Creative video" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -703,13 +812,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2 notinuse">50 Video-54 NOT IN USE</h4>
+			<CategoryHeader label="50 Video-54 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">50 Video-55 Screens, displays and monitors</h4>
+			<CategoryHeader label="50 Video-55 Screens, displays and monitors" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -731,13 +840,13 @@ export function V1Desc() {
 				<span className="c0">Screen - large format screens for audience and creative use.</span>
 			</p>
 
-			<h4 className="c2 notinuse">50 Video-56 NOT IN USE</h4>
+			<CategoryHeader label="50 Video-56 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">50 Video-57 House video</h4>
+			<CategoryHeader label="50 Video-57 House video" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -746,13 +855,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2 notinuse">50 Video-58 NOT IN USE</h4>
+			<CategoryHeader label="50 Video-58 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">50 Video-59 Infrastructure</h4>
+			<CategoryHeader label="50 Video-59 Infrastructure" className="c2" />
 
 			<p className="c1">
 				<span>
@@ -763,7 +872,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">60 Audio-60 Audio annotation</h4>
+			<CategoryHeader label="60 Audio-60 Audio annotation" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -772,7 +881,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">60 Audio-61 PA main</h4>
+			<CategoryHeader label="60 Audio-61 PA main" className="c2" />
 
 			<p className="c1">
 				<span>
@@ -781,7 +890,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">60 Audio-62 PA delay</h4>
+			<CategoryHeader label="60 Audio-62 PA delay" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -789,7 +898,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">60 Audio-63 PA fill</h4>
+			<CategoryHeader label="60 Audio-63 PA fill" className="c2" />
 
 			<p className="c1">
 				<span className="c0">Sidefills, outfills, centerfills, innfills. You know the fill.</span>
@@ -798,37 +907,37 @@ export function V1Desc() {
 				<span className="c0 c10"></span>
 			</p>
 
-			<h4 className="c2">60 Audio-64 Sub</h4>
+			<CategoryHeader label="60 Audio-64 Sub" className="c2" />
 
 			<p className="c1">
 				<span className="c0">Subwoofers. Subwoolfers. Arrays, stacks and anything specific to subs.</span>
 			</p>
 
-			<h4 className="c2">60 Audio-65 Monitors</h4>
+			<CategoryHeader label="60 Audio-65 Monitors" className="c2" />
 
 			<p className="c1">
 				<span className="c0">Anything related to monitors, onstage, offstage, artist specifics etc.</span>
 			</p>
 
-			<h4 className="c2">60 Audio-66 Microphones, stands</h4>
+			<CategoryHeader label="60 Audio-66 Microphones, stands" className="c2" />
 
 			<p className="c1">
 				<span className="c0">Self explanatory really. </span>
 			</p>
 
-			<h4 className="c2">60 Audio-67 House audio</h4>
+			<CategoryHeader label="60 Audio-67 House audio" className="c2" />
 
 			<p className="c1">
 				<span className="c0">Any audio equipment permanently installed at a venue.</span>
 			</p>
 
-			<h4 className="c2 notinuse">60 Audio-68 NOT IN USE</h4>
+			<CategoryHeader label="60 Audio-68 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">60 Audio-69 Infrastructure</h4>
+			<CategoryHeader label="60 Audio-69 Infrastructure" className="c2" />
 
 			<p className="c1">
 				<span>
@@ -839,7 +948,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">70 Effects-70 Effects annotation</h4>
+			<CategoryHeader label="70 Effects-70 Effects annotation" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -848,7 +957,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">70 Effects-71 Pyro, SFX</h4>
+			<CategoryHeader label="70 Effects-71 Pyro, SFX" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -857,7 +966,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">70 Effects-72 Lasers</h4>
+			<CategoryHeader label="70 Effects-72 Lasers" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -866,37 +975,37 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">70 Effects-Water features</h4>
+			<CategoryHeader label="70 Effects-Water features" className="c2" />
 
 			<p className="c1">
 				<span className="c0">Any water or water imitation effects used as part of a show.</span>
 			</p>
 
-			<h4 className="c2 notinuse">70 Effects-74 NOT IN USE</h4>
+			<CategoryHeader label="70 Effects-74 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2 notinuse">70 Effects-75 NOT IN USE</h4>
+			<CategoryHeader label="70 Effects-75 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2 notinuse">70 Effects-76 NOT IN USE</h4>
+			<CategoryHeader label="70 Effects-76 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2 notinuse">70 Effects-77 NOT IN USE</h4>
+			<CategoryHeader label="70 Effects-77 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">70 Effects-78 Haze, smoke</h4>
+			<CategoryHeader label="70 Effects-78 Haze, smoke" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -905,7 +1014,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">70 Effects-79 Infrastructure</h4>
+			<CategoryHeader label="70 Effects-79 Infrastructure" className="c2" />
 
 			<p className="c1">
 				<span>
@@ -916,7 +1025,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">80 Event-80 Event annotation</h4>
+			<CategoryHeader label="80 Event-80 Event annotation" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -925,13 +1034,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">80 Event-81 Seating</h4>
+			<CategoryHeader label="80 Event-81 Seating" className="c2" />
 
 			<p className="c1">
 				<span>This category is for event specific seating, typically folding chairs, seated tables etc.</span>
 			</p>
 
-			<h4 className="c2">80 Event-82 Platforms, towers</h4>
+			<CategoryHeader label="80 Event-82 Platforms, towers" className="c2" />
 
 			<p className="c1">
 				<span>
@@ -940,13 +1049,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">80 Event-83 Barricades, fences</h4>
+			<CategoryHeader label="80 Event-83 Barricades, fences" className="c2" />
 
 			<p className="c1">
 				<span>Crowd control measures.</span>
 			</p>
 
-			<h4 className="c2">80 Event-84 Functions</h4>
+			<CategoryHeader label="80 Event-84 Functions" className="c2" />
 
 			<p className="c1">
 				<span>
@@ -954,31 +1063,31 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">80 Event-85 Talent, presenters</h4>
+			<CategoryHeader label="80 Event-85 Talent, presenters" className="c2" />
 
 			<p className="c1">
 				<span>The actual artists, acts, hosts. People who may (or may not) belong on a stage.</span>
 			</p>
 
-			<h4 className="c2">80 Event-86 People, pigeons</h4>
+			<CategoryHeader label="80 Event-86 People, pigeons" className="c2" />
 
 			<p className="c1">
 				<span>Audience, crowds, guests etc. For architects: stick your pigeons here as well.</span>
 			</p>
 
-			<h4 className="c2">80 Event-87 Bars, booths, service</h4>
+			<CategoryHeader label="80 Event-87 Bars, booths, service" className="c2" />
 
 			<p className="c1">
 				<span>Food / drink vendors, sale of merchandise, restrooms, sponsors</span>
 			</p>
 
-			<h4 className="c2 notinuse">80 Event-88 NOT IN USE</h4>
+			<CategoryHeader label="80 Event-88 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">80 Event-89 Infrastructure</h4>
+			<CategoryHeader label="80 Event-89 Infrastructure" className="c2" />
 
 			<p className="c1">
 				<span>
@@ -991,7 +1100,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">90 Broadcast-90 Broadcast annotation</h4>
+			<CategoryHeader label="90 Broadcast-90 Broadcast annotation" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1000,7 +1109,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">90 Broadcast-91 OB units</h4>
+			<CategoryHeader label="90 Broadcast-91 OB units" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1008,13 +1117,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">90 Broadcast-92 Cameras</h4>
+			<CategoryHeader label="90 Broadcast-92 Cameras" className="c2" />
 
 			<p className="c1">
 				<span>Cameras capturing the event. Steadi-cams, dollies, remote, hand-held.</span>
 			</p>
 
-			<h4 className="c2">90 Broadcast-93 Jib, rail, grip</h4>
+			<CategoryHeader label="90 Broadcast-93 Jib, rail, grip" className="c2" />
 
 			<p className="c1">
 				<span>
@@ -1022,7 +1131,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">90 Broadcast-94 Operators, support functions</h4>
+			<CategoryHeader label="90 Broadcast-94 Operators, support functions" className="c2" />
 
 			<p className="c1">
 				<span>
@@ -1031,31 +1140,31 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2">90 Broadcast-95 Monitors</h4>
+			<CategoryHeader label="90 Broadcast-95 Monitors" className="c2" />
 
 			<p className="c1">
 				<span>Screens that are not part of the event, but used for crew, audience and talent.</span>
 			</p>
 
-			<h4 className="c2 notinuse">90 Broadcast-96 NOT IN USE</h4>
+			<CategoryHeader label="90 Broadcast-96 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">90 Broadcast-97 House cameras</h4>
+			<CategoryHeader label="90 Broadcast-97 House cameras" className="c2" />
 
 			<p className="c1">
 				<span>Camera equipment already at the venue.</span>
 			</p>
 
-			<h4 className="c2 notinuse">90 Broadcast-98 NOT IN USE</h4>
+			<CategoryHeader label="90 Broadcast-98 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">90 Broadcast-99 Infrastructure</h4>
+			<CategoryHeader label="90 Broadcast-99 Infrastructure" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1072,7 +1181,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">900 Drawing Support-901 Reference</h4>
+			<CategoryHeader label="900 Drawing Support-901 Reference" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1085,7 +1194,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">900 Drawing Support-902 Origin object, datum lines</h4>
+			<CategoryHeader label="900 Drawing Support-902 Origin object, datum lines" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1096,7 +1205,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">900 Drawing Support-903 North-arrow, celestial references</h4>
+			<CategoryHeader label="900 Drawing Support-903 North-arrow, celestial references" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1108,7 +1217,7 @@ export function V1Desc() {
 				<span className="c0 c10"></span>
 			</p>
 
-			<h4 className="c2">900 Drawing Support-904 Centerlines</h4>
+			<CategoryHeader label="900 Drawing Support-904 Centerlines" className="c2" />
 
 			<p className="c1">
 				<span className="c0">Building centerline, room centerline, stage centerline. Centerlines galore!</span>
@@ -1117,7 +1226,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">900 Drawing Support-905 Non Construction Lines</h4>
+			<CategoryHeader label="900 Drawing Support-905 Non Construction Lines" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1130,7 +1239,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">900 Drawing Support-906 Dimensions</h4>
+			<CategoryHeader label="900 Drawing Support-906 Dimensions" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1142,7 +1251,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">900 Drawing Support-907 Text</h4>
+			<CategoryHeader label="900 Drawing Support-907 Text" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1154,7 +1263,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">900 Drawing Support-908 Print Specific</h4>
+			<CategoryHeader label="900 Drawing Support-908 Print Specific" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1163,7 +1272,7 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2 notinuse">900 Drawing Support-909 NOT IN USE</h4>
+			<CategoryHeader label="900 Drawing Support-909 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
@@ -1172,7 +1281,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">910 Software Support-911 Cameras</h4>
+			<CategoryHeader label="910 Software Support-911 Cameras" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1184,7 +1293,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">910 Software Support-912 Viewports</h4>
+			<CategoryHeader label="910 Software Support-912 Viewports" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1195,7 +1304,7 @@ export function V1Desc() {
 				<span className="c0 c10"></span>
 			</p>
 
-			<h4 className="c2 notinuse">910 Software Support-913 NOT IN USE</h4>
+			<CategoryHeader label="910 Software Support-913 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
@@ -1204,7 +1313,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">910 Software Support-914 Focus points, focus lines</h4>
+			<CategoryHeader label="910 Software Support-914 Focus points, focus lines" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1216,7 +1325,7 @@ export function V1Desc() {
 				<span className="c0"></span>
 			</p>
 
-			<h4 className="c2">910 Software Support-915 Axis, motion</h4>
+			<CategoryHeader label="910 Software Support-915 Axis, motion" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1225,13 +1334,13 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2 notinuse">910 Software Support-916 NOT IN USE</h4>
+			<CategoryHeader label="910 Software Support-916 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">910 Software Support-917 Default category</h4>
+			<CategoryHeader label="910 Software Support-917 Default category" className="c2" />
 
 			<p className="c1">
 				<span className="c0">
@@ -1240,67 +1349,67 @@ export function V1Desc() {
 				</span>
 			</p>
 
-			<h4 className="c2 notinuse">910 Software Support-918 NOT IN USE</h4>
+			<CategoryHeader label="910 Software Support-918 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2 notinuse">910 Software Support-919 NOT IN USE</h4>
+			<CategoryHeader label="910 Software Support-919 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2">920 Calculations-921 Braceworks</h4>
+			<CategoryHeader label="920 Calculations-921 Braceworks" className="c2" />
 
 			<p className="c1">
 				<span className="c0">This category is for Vectorworks Braceworks specific support functions.</span>
 			</p>
 
-			<h4 className="c2 notinuse">920 Calculations-922 NOT IN USE</h4>
+			<CategoryHeader label="920 Calculations-922 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2 notinuse">920 Calculations-923 NOT IN USE</h4>
+			<CategoryHeader label="920 Calculations-923 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2 notinuse">920 Calculations-924 NOT IN USE</h4>
+			<CategoryHeader label="920 Calculations-924 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2 notinuse">920 Calculations-925 NOT IN USE</h4>
+			<CategoryHeader label="920 Calculations-925 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2 notinuse">920 Calculations-926 NOT IN USE</h4>
+			<CategoryHeader label="920 Calculations-926 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2 notinuse">920 Calculations-927 NOT IN USE</h4>
+			<CategoryHeader label="920 Calculations-927 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2 notinuse">920 Calculations-928 NOT IN USE</h4>
+			<CategoryHeader label="920 Calculations-928 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
 			</p>
 
-			<h4 className="c2 notinuse">920 Calculations-929 NOT IN USE</h4>
+			<CategoryHeader label="920 Calculations-929 NOT IN USE" className="c2 notinuse" />
 
 			<p className="c1">
 				<span className="c0">This sub category is currently not in use</span>
