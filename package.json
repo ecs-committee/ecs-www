@@ -1,6 +1,6 @@
 {
 	"name": "ecs-www",
-	"version": "0.1.42",
+	"version": "1.0.0",
 	"private": true,
 	"release-it": {
 		"github": {
